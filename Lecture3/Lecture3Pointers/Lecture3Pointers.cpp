@@ -1,20 +1,49 @@
-// Lecture3Pointers.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+using namespace std;
 
-int main()
-{
-    std::cout << "Hello World!\n";
+void pp(int& a) {
+    std::cout << &a << " " << a << " " << sizeof(a) << std::endl;
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+template<typename T>
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+class Array {
+    T* m_arr;
+    size_t m_size;
+
+public:
+    Array(size_t size):  m_arr(new T[size]), m_size(size){
+        cout << "Array Constructor\n";
+    }
+    ~Array() {
+        delete[] m_arr;
+        cout << "Array Destructor\n";
+    }
+    T get(size_t index) const {
+        return m_arr[index];
+    }
+    void set(size_t index, T val) {
+        m_arr[index] = val;
+    }
+    void print()const {
+        for (size_t i = 0; i < m_size; i++) {
+            cout << i << " " << m_arr[i] << '\n';
+        }
+    }
+    const T& operator[](size_t index) const {
+        return m_arr[index];
+    }
+    T& operator[](size_t index) {
+        return m_arr[index];
+    }
+
+
+};
+
+int main(int argc, char* argv[])
+{
+    Array<float> myArray(10);
+    myArray[2] = 1000;
+    myArray.print();
+    return 0;
+}
